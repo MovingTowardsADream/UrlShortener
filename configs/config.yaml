@@ -1,0 +1,15 @@
+app:
+  name: "url-shortener"
+  version: "v1.0.0"
+
+http:
+  port: ":8080"
+  timeout: 5s
+  idle_timeout: 60s
+
+redis:
+  pool_max: 100
+  idle_conn: 10
+
+logger:
+  log_level: "debug"
