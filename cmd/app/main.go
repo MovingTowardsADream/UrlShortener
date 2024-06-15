@@ -4,16 +4,17 @@ import (
 	"UrlShortener/configs"
 	"UrlShortener/internal/app"
 	"UrlShortener/pkg/logger"
+	"fmt"
 	"os"
 	"os/signal"
 	"syscall"
 )
 
-// TODO Validate, Middleware, GenerateUrlShort
-
 func main() {
 	// Init configuration
 	cfg := configs.MustLoad()
+
+	fmt.Println(cfg)
 
 	// Init logger
 	log := logger.SetupLogger(cfg.Log.Level)

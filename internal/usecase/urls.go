@@ -6,29 +6,53 @@ import (
 	"context"
 	"crypto/sha256"
 	"encoding/hex"
+	"time"
+)
+
+const (
+	_defaultTimeout = 5 * time.Second
 )
 
 type UrlsUseCase struct {
-	repo repository.UrlsData
+	repo    repository.UrlsData
+	timeout time.Duration
 }
 
-func NewUrlsUseCase(repo repository.UrlsData) *UrlsUseCase {
-	return &UrlsUseCase{repo: repo}
+func NewUrlsUseCase(repo repository.UrlsData, opts ...Option) *UrlsUseCase {
+	uc := &UrlsUseCase{
+		repo:    repo,
+		timeout: _defaultTimeout,
+	}
+
+	for _, opt := range opts {
+		opt(uc)
+	}
+
+	return uc
 }
 
 func (uc *UrlsUseCase) SaveUrl(ctx context.Context, url entity.Url) error {
+	ctxWithTimeout, cancel := context.WithTimeout(ctx, _defaultTimeout)
+	defer cancel()
+
 	if url.ShortUrl == "" {
 		url.ShortUrl = generateShortLink(url.Url)
 	}
-	return uc.repo.SaveUrl(ctx, url)
+	return uc.repo.SaveUrl(ctxWithTimeout, url)
 }
 
 func (uc *UrlsUseCase) GetUrl(ctx context.Context, alias string) (entity.Url, error) {
-	return uc.repo.GetUrl(ctx, alias)
+	ctxWithTimeout, cancel := context.WithTimeout(ctx, _defaultTimeout)
+	defer cancel()
+
+	return uc.repo.GetUrl(ctxWithTimeout, alias)
 }
 
 func (uc *UrlsUseCase) DeleteUrl(ctx context.Context, alias string) error {
-	return uc.repo.DeleteUrl(ctx, alias)
+	ctxWithTimeout, cancel := context.WithTimeout(ctx, _defaultTimeout)
+	defer cancel()
+
+	return uc.repo.DeleteUrl(ctxWithTimeout, alias)
 }
 
 func generateShortLink(longURL string) string {

@@ -18,6 +18,7 @@ type (
 		App   `yaml:"app"`
 		HTTP  `yaml:"http"`
 		Redis `yaml:"redis"`
+		Mongo `yaml:"mongo"`
 		Log   `yaml:"logger"`
 	}
 
@@ -27,20 +28,19 @@ type (
 	}
 
 	HTTP struct {
-		Port        string        `env:"HTTP_PORT" env-default:":8080" yaml:"port"`
-		Timeout     time.Duration `env:"HTTP_TIMEOUT" env-default:"5s"    yaml:"timeout"`
-		IdleTimeout time.Duration `env:"HTTP_IDLE_TIMEOUT" env-default:"60s" yaml:"idle_timeout"`
+		Port    string        `env:"HTTP_PORT" env-default:":8080" yaml:"port"`
+		Timeout time.Duration `env:"HTTP_TIMEOUT" env-default:"5s"    yaml:"timeout"`
 	}
 
 	Redis struct {
-		Address  string `env:"REDIS_ADDRESS" env-required:"true"`
-		Password string `env:"REDIS_PASSWORD" env-required:"true"`
+		Address  string `env:"REDIS_ADDRESS"`
+		Password string `env:"REDIS_PASSWORD"`
 		PoolMax  int    `env:"REDIS_POOL_MAX" env-default:"100"     yaml:"pool_max"`
 		IdleConn int    `env:"REDIS_IDLE_CONN" env-default:"10"     yaml:"idle_conn"`
 	}
 
 	Mongo struct {
-		Url      string `env:"MONGO_URL" env-required:"true"`
+		Url      string `env:"MONGO_URL"`
 		PoolMax  int    `env:"MONGO_POOL_MAX" env-default:"100"     yaml:"pool_max"`
 		IdleConn int    `env:"MONGO_IDLE_CONN" env-default:"10"     yaml:"idle_conn"`
 	}
