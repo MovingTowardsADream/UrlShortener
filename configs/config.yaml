@@ -11,5 +11,9 @@ redis:
   pool_max: 100
   idle_conn: 10
 
+mongo:
+  pool_max: 100
+  idle_conn: 10
+
 logger:
   log_level: "debug"
