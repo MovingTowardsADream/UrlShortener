@@ -35,8 +35,14 @@ type (
 	Redis struct {
 		Address  string `env:"REDIS_ADDRESS" env-required:"true"`
 		Password string `env:"REDIS_PASSWORD" env-required:"true"`
-		PoolMax  int    `env:"PG_POOL_MAX" env-default:"100"     yaml:"pool_max"`
-		IdleConn int    `env:"PG_IDLE_CONN" env-default:"10"     yaml:"idle_conn"`
+		PoolMax  int    `env:"REDIS_POOL_MAX" env-default:"100"     yaml:"pool_max"`
+		IdleConn int    `env:"REDIS_IDLE_CONN" env-default:"10"     yaml:"idle_conn"`
+	}
+
+	Mongo struct {
+		Url      string `env:"MONGO_URL" env-required:"true"`
+		PoolMax  int    `env:"MONGO_POOL_MAX" env-default:"100"     yaml:"pool_max"`
+		IdleConn int    `env:"MONGO_IDLE_CONN" env-default:"10"     yaml:"idle_conn"`
 	}
 
 	Log struct {
