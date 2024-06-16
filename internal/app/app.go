@@ -7,7 +7,9 @@ import (
 	"UrlShortener/internal/usecase"
 	"UrlShortener/pkg/httpserver"
 	redisdb "UrlShortener/pkg/redis"
+	"UrlShortener/pkg/validator"
 	"github.com/gin-gonic/gin"
+	"github.com/gin-gonic/gin/binding"
 	"log/slog"
 )
 
@@ -31,6 +33,10 @@ func New(log *slog.Logger, cfg *configs.Config) *App {
 
 	// Init http server
 	handler := gin.New()
+
+	// Custom validator
+	binding.Validator = validator.NewCustomValidator()
+
 	v1.NewRouter(handler, log, useCase)
 	httpServer := httpserver.New(log, handler, httpserver.Port(cfg.HTTP.Port), httpserver.WriteTimeout(cfg.HTTP.Timeout))
 
